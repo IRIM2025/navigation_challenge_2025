@@ -1,0 +1,29 @@
+# Maze Generator Configuration
+
+# Maze dimensions (should be odd numbers for proper generation)
+maze:
+  width: 21
+  height: 21
+
+# Wall properties
+wall:
+  height: 2.0        # Height of walls in meters
+  thickness: 0.2     # Thickness of walls in meters
+
+# Cell properties  
+cell:
+  size: 2.0          # Size of each cell in meters
+
+# Visualization
+visualization:
+  show_maze_grid: true
+  wall_color:
+    r: 0.7
+    g: 0.7
+    b: 0.7
+    a: 1.0
+
+# Algorithm parameters
+algorithm:
+  seed: -1           # Random seed (-1 for random)
+  ensure_solvable: true

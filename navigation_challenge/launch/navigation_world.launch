@@ -1,0 +1,84 @@
+<launch>
+  <param name="use_sim_time" value="true"/>
+  
+  <!-- ARGUMENTS -->
+  <arg name="kbd_teleop" default="false"/>
+  <arg name="rqt_teleop" default="false"/>
+  <arg name="scene_file" default="$(find pedsim_simulator)/scenarios/maze_scenario.xml"/>
+  <arg name="world_name" default="$(find pedsim_gazebo_plugin)/worlds/maze_scenario.world"/>
+  <arg name="default_queue_size" default="10"/>
+  <arg name="max_robot_speed" default="1.5"/>
+  <arg name="robot_mode" default="1"/>
+  <arg name="enable_groups" default="true"/>
+  
+  <arg name="pose_initial_x" default="0.0"/> 
+  <arg name="pose_initial_y" default="0.0"/>
+  <arg name="pose_initial_theta" default="0.0"/>
+  <arg name="simulation_factor" default="1.0"/> 
+  <arg name="update_rate" default="25.0"/>
+
+  <arg name="maze_width" default="6"/>
+  <arg name="maze_height" default="6"/>
+  <arg name="generate_maze" default="true"/>
+  <arg name="visualize" default="false"/>
+  <arg name="gui" default="true" doc="Bring up the Gazebo graphical interface"/>
+  <arg name="launch_gazebo" default="true"/>
+
+  <!-- Gazebo con mondo generato automaticamente -->
+  <group if="$(arg launch_gazebo)">
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+        <arg name="world_name" value="$(arg world_name)"/>
+        <arg name="gui" value="$(arg gui)"/>
+        <!-- <arg name="paused" value="false"/>
+        <arg name="use_sim_time" value="true"/> -->
+    </include>
+  </group>
+  
+
+  <!-- Genera scenario pedsim -->
+  <node pkg="pedsim_gazebo_plugin" type="spawn_pedsim_agents.py" name="spawn_pedsim_agents" 
+        output="screen">
+  </node>
+
+   <!-- Transform per PMB2 -->
+  <node pkg="tf" type="static_transform_publisher" name="map_odom_broadcaster"
+      args="-1 -1 0 0 0 0 map odom 100"/>
+
+  <!-- Maze generator -->
+  <group if="$(arg generate_maze)">
+    <include file="$(find maze_generator)/launch/maze_generator.launch">
+      <arg name="maze_width" value="$(arg maze_width)"/>
+      <arg name="maze_height" value="$(arg maze_height)"/>
+    </include>
+  </group>
+
+  <!-- Simulatore pedsim -->
+  <node name="pedsim_simulator" pkg="pedsim_simulator" type="pedsim_simulator" output="screen">
+    <param name="scene_file" value="$(arg scene_file)" type="string"/>
+    <param name="default_queue_size" value="$(arg default_queue_size)" type="int"/>
+    <param name="max_robot_speed" value="$(arg max_robot_speed)" type="double"/>
+    <param name="robot_mode" value="$(arg robot_mode)" type="int"/>
+    <param name="enable_groups" value="$(arg enable_groups)" type="bool"/>
+    <param name="simulation_factor" value="$(arg simulation_factor)" type="double"/>
+    <param name="update_rate" value="$(arg update_rate)" type="double"/>
+    <param name="frame_id" value="odom"/>
+    
+    <!-- PARAMETRI AGGIUNTIVI per Social Force -->
+    <param name="default_speed" value="1.2" type="double"/>
+    <param name="social_force_factor" value="5.1" type="double"/>
+    <param name="desired_force_factor" value="1.0" type="double"/>
+    <param name="obstacle_force_factor" value="10.0" type="double"/>
+  </node>
+
+  <!-- Visualizzatore pedsim -->
+  <include file="$(find pedsim_visualizer)/launch/visualizer.launch"/>
+
+  <!-- Teleop -->
+  <group if="$(arg kbd_teleop)">
+    <node name="teleop_twist_keyboard" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen">
+      <remap from="cmd_vel" to="/mobile_base_controller/cmd_vel"/>
+    </node>
+  </group>
+
+
+</launch>

@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Maze Generation Parameters -->
+  <arg name="maze_width" default="4" />
+  <arg name="maze_height" default="4" />
+  <arg name="wall_height" default="2.0" />
+  <arg name="cell_size" default="10.0" />
+  <arg name="auto_generate" default="true" />
+
+  <!-- Maze Generator Node -->
+  <node name="maze_generator" pkg="maze_generator" type="maze_generator.py" output="screen">
+    <param name="width" value="$(arg maze_width)" />
+    <param name="height" value="$(arg maze_height)" />
+    <param name="wall_height" value="$(arg wall_height)" />
+    <param name="cell_size" value="$(arg cell_size)" />
+  </node>
+
+  <!-- Maze Controller Node -->
+  <node name="maze_controller" pkg="maze_generator" type="maze_controller.py" output="screen" />
+
+  <!-- Optional: Launch RViz for visualization -->
+  <arg name="rviz" default="false" />
+  <node if="$(arg rviz)" name="rviz" pkg="rviz" type="rviz" 
+        args="-d $(find maze_generator)/config/maze_visualization.rviz" />
+
+</launch>

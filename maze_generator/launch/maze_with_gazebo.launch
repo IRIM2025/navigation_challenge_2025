@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Gazebo Arguments -->
+  <arg name="world_name" default="worlds/empty.world" />
+  <arg name="paused" default="false" />
+  <arg name="use_sim_time" default="true" />
+  <arg name="gui" default="true" />
+  <arg name="headless" default="false" />
+  <arg name="debug" default="false" />
+  <arg name="launch_gazebo" default="true"/>
+
+  <!-- Launch Gazebo -->
+  <group if="$(arg launch_gazebo)">
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="world_name" value="$(arg world_name)" />
+      <arg name="paused" value="$(arg paused)" />
+      <arg name="use_sim_time" value="$(arg use_sim_time)" />
+      <arg name="gui" value="$(arg gui)" />
+      <arg name="headless" value="$(arg headless)" />
+      <arg name="debug" value="$(arg debug)" />
+    </include>
+  </group>
+
+  <!-- Generate Maze -->
+  <include file="$(find maze_generator)/launch/maze_generator.launch">
+    <arg name="maze_width" default="21" />
+    <arg name="maze_height" default="21" />
+  </include>
+
+</launch>

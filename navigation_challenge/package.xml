@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>navigation_challenge</name>
+  <version>0.0.0</version>
+  <description>The navigation_challenge package</description>
+
+
+  <maintainer email="andrea.pupa@uimore.it">Andrea Pupa</maintainer>
+
+
+  <license>TODO</license>
+
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>maze_generator</build_depend>
+  <build_depend>pedsim_gazebo_plugin</build_depend>
+  <build_depend>pedsim_simulator</build_depend>
+  <build_depend>key_teleop</build_depend>
+  <build_depend>joy_teleop</build_depend>
+  
+  <build_export_depend>maze_generator</build_export_depend>
+  <build_export_depend>teleop_tools</build_export_depend>
+  
+  <exec_depend>maze_generator</exec_depend>
+  <exec_depend>pedsim_gazebo_plugin</exec_depend>
+  <exec_depend>pedsim_simulator</exec_depend>
+  <exec_depend>key_teleop</exec_depend>
+  <exec_depend>joy_teleop</exec_depend>
+
+</package>
