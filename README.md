@@ -46,7 +46,7 @@ It is assumed that you already have a computer with ROS installed and the requir
 
 If not, follow the tutorial on the official ROS website (Noetic)  <a href="http://wiki.ros.org/noetic/Installation">here</a>. Subsequently, install the tutorials package <a href="https://wiki.ros.org/Robots/PMB-2/Tutorials/Installation/InstallUbuntuAndROS">here</a>.
 
-Ypu need also to download and install this <a href="https://github.com/TempleRAIL/pedsim_ros_with_gazebo">repository</a>.
+Ypu need also to download and install this <a href="https://github.com/marziapi/pedsim_ros_with_gazebo">repository</a>.
 
 
 After this, everything should autoinstall with the command:
